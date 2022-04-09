@@ -84,7 +84,19 @@
 			<version>6.1.6.Final</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-core -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+			<version>8.5.7</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-mysql -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-mysql</artifactId>
+			<version>8.5.7</version>
+		</dependency>
 	</dependencies>
 
 
@@ -93,6 +105,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>8.5.7</version>
+				<configuration>
+					<url>jdbc:mysql://localhost:3306/myspring</url>
+					<user>root</user>
+					<password>root</password>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
