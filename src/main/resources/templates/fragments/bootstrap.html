@@ -26,7 +26,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/messages">Список сообщений</a>
                     </li>
-                    <div sec:authorize="hasRole('ADMIN')">
+                    <div sec:authorize="hasAuthority('ADMIN')">
                         <li class="nav-item">
                             <a class="nav-link" href="/admin">Админка</a>
                         </li>
