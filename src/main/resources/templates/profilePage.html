@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="~{fragments/bootstrap :: head}"></div>
+    <title>Профиль пользователя</title>
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/bootstrap :: navbar}"></div>
+</header>
+<div th:insert="~{fragments/bootstrap :: js}"></div>
+<div class="container mt-5">
+    <h1>Профиль </h1>
+    <p th:text="${user.getUsername()}"></p>
+    <p th:text="${user.getFirstName()}"></p>
+    <p th:text="${user.getLastName()}"></p>
+    <p th:text="${user.getBirthday()}"></p>
+    <p th:text="${user.getSex()}"></p>
+    <h4 class="h4">Сообщения</h4>
+    <div class="card-group">
+        <div th:each="message, iterStat:${user.getMessageList()}">
+            <div class="card border-info m-2" style="min-width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${message.getTag()}"></h5>
+                    <p class="card-text" th:text="${message.getText()}"></p>
+                    <p class="card-text" th:text="${message.getSimpleDate()}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

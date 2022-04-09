@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="~{fragments/bootstrap :: head}"></div>
+    <title>Редактировать профиль</title>
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/bootstrap :: navbar}"></div>
+</header>
+<div th:insert="~{fragments/bootstrap :: js}"></div>
+<div class="container mt-5">
+    <form th:method="patch" th:object="${myself}" th:action="@{/profile/edit}">
+        <div class="form-floating">
+            <input class="form-control" type="text" th:field="*{firstName}" th:value="*{getFirstName()}" id="firstName"><br>
+            <label for="firstName">Имя</label>
+        </div>
+        <div class="form-floating">
+            <input class="form-control" type="text" th:field="*{lastName}" th:value="*{getLastName()}"
+                   id="lastName"><br>
+            <label for="lastName">Фамилия</label>
+        </div>
+        <div class="form-floating">
+            <input class="form-control" type="email" th:field="*{email}" th:value="*{getEmail()}" id="email"><br>
+            <label for="email">Email</label>
+        </div>
+        <div class="form-floating">
+            <input class="form-control" type="date" th:field="*{birthday}" th:value="*{getBirthday()}"
+                   id="birthday"><br>
+            <label for="birthday">Дата рождения</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" th:field="*{sex}" th:name="sex" th:value="MAN" id="man">
+            <label for="man" class="form-check-label">Мужчина</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" th:field="*{sex}" th:name="sex" th:value="FEMALE" id="female">
+            <label for="female" class="form-check-label">Женщина</label>
+        </div>
+        <div class="my-md-4">
+            <button class="btn btn-primary" type="submit">Сохранить</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

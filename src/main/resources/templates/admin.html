@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Админка</title>
+    <div th:insert="~{fragments/bootstrap :: head}"></div>
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/bootstrap :: navbar}"></div>
+</header>
+<div th:insert="~{fragments/bootstrap :: js}"></div>
+<div class="container">
+    <div class="card-group">
+        <div th:each="user : ${users}">
+            <div class="card border-white" style="min-width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${user.getUsername()}"></h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <div th:each="role : ${user.getRoles()}">
+                        <li class="list-group-item" th:text="${role.getName()}"></li>
+                    </div>
+                </ul>
+                <form th:method="patch" th:action="@{'/admin/edit/{id}'(id=${user.getId()})}">
+                    <button class="btn btn-primary" type="submit">Сделать админом</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

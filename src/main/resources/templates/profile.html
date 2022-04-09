@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="~{fragments/bootstrap :: head}"></div>
+    <title>Мой профиль</title>
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/bootstrap :: navbar}"></div>
+</header>
+<div th:insert="~{fragments/bootstrap :: js}"></div>
+<div class="container mt-5">
+    <h4 class="h4">Мой профиль</h4>
+    <p th:text="${myself.getUsername()}"></p>
+    <p th:text="${myself.getFirstName()}"></p>
+    <p th:text="${myself.getLastName()}"></p>
+    <p th:text="${myself.getBirthday()}"></p>
+    <p th:text="${myself.getEmail()}"></p>
+    <p th:text="${myself.getSex()}"></p>
+    <a class="btn btn-primary" href="/profile/edit">Изменить</a>
+    <h4 class="h4">Мои сообщения</h4>
+    <div class="card-group">
+        <div th:each="message, iterStat:${myself.getMessageList()}">
+            <div class="card border-info m-2" style="min-width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${message.getTag()}"></h5>
+                    <p class="card-text" th:text="${message.getText()}"></p>
+                    <p class="card-text" th:text="${message.getSimpleDate()}"></p>
+                    <form th:method="delete" th:action="@{'/profile/delete/{id}'(id=${message.getId()})}">
+                        <button class="btn btn-primary" type="submit">Удалить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

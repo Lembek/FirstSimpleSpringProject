@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <div th:insert="~{fragments/bootstrap :: head}"></div>
+
+    <title>Сообщения</title>
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/bootstrap :: navbar}"></div>
+</header>
+<div th:insert="~{fragments/bootstrap :: js}"></div>
+<div class="container mt-5">
+    <h4 class="h4">Список сообщений</h4>
+    <form class="" th:method="get" th:action="@{messages}">
+        <div class="input-group p-2">
+        <input class="form-control" type="text" name="filter" placeholder="Введите фильтр">
+        </div>
+        <button class="btn btn-primary" type="submit">Фильтр</button>
+    </form>
+    <div class="card-group">
+        <div th:each="message, iterStat:${messages}">
+            <div class="card border-info m-2" style="min-width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${message.getTag()}"></h5>
+                    <p class="card-text" th:text="${message.getText()}"></p>
+                    <p class="card-text" th:text="${message.getSimpleDate()}"></p>
+                    <small class="text-muted"><a th:href="@{/profile/{id}(id=${message.getAuthor.getId()})}"
+                       th:text="${message.getAuthor.getUsername()}"></a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form class="needs-validation" novalidate th:method="post" th:object="${message}" th:action="@{messages}">
+        <div class="input-group has-validation p-2" style="max-width: 18rem;">
+            <input type="text" th:class="${#fields.hasErrors('text')}?'form-control is-invalid':'form-control'"
+                   th:field="*{text}" placeholder="Введите текст"
+                   aria-describedby="textValidation" required><br/>
+            <div th:if="${#fields.hasErrors('text')}" th:errors="*{text}" class="invalid-feedback"
+                 id="textValidation"></div>
+        </div>
+        <div class="input-group has-validation p-2" style="max-width: 18rem;">
+            <input th:field="*{tag}" type="text"
+                   th:class="${#fields.hasErrors('tag')} ? 'from-control is-invalid':'form-control'"
+                   aria-describedby="tagValidation" placeholder="Введите тег" required>
+            <div th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}" id="tagValidation"
+                 class="invalid-feedback"></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Добавить новый пост</button>
+    </form>
+
+</div>
+</body>
+</html>

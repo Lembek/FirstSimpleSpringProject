@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <div th:insert="~{fragments/bootstrap :: head}"></div>
+    <title>Главная</title>
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/bootstrap :: navbar}"></div>
+</header>
+<div class="container ">
+    <div th:insert="~{fragments/bootstrap :: js}"></div>
+    <h3>Главная</h3>
+    <p>Добро пожаловать на сайт моего первого, простенького проекта </p>
+    <a class="btn btn-primary" href="/login">Вход</a>
+    <a class="btn btn-primary" href="/registration">Регистрация</a>
+</div>
+</body>
+</html>
