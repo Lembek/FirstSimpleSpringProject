@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 
 
-
 @Controller
 public class MainController {
     private final UserService userService;
@@ -24,8 +23,6 @@ public class MainController {
     public MainController(UserService userService) {
         this.userService = userService;
     }
-
-
 
 
     @GetMapping
@@ -39,25 +36,14 @@ public class MainController {
     }
 
 
-
     @PostMapping("/registration")
     public String newUser(@Valid @ModelAttribute User user, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors())
             return "registration";
 
-        if (!user.getPassword().equals(user.getCheckPassword())) {
-            model.addAttribute("passwordError", "Пароли не совпадают");
-            return "registration";
-        }
-
-        if (userService.existByUsername(user.getUsername())){
-            model.addAttribute("userExist", "Пользователь с таким логином уже существует");
-            return "registration";
-        }
-
         userService.save(user);
-       return "redirect:/login";
+        return "redirect:/login";
     }
 
     @PostMapping("/login")

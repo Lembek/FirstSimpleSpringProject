@@ -1,7 +1,6 @@
 package com.example.MyTwitter.entities;
 
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -26,9 +25,6 @@ public class User {
     @NotBlank(message = "Пароль не может быть пустым")
     private String password;
 
-    @Transient
-    private String checkPassword;
-
     @NotBlank(message = "Имя не может быть пустым")
     private String firstName;
 
@@ -46,24 +42,19 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Sex sex;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author",orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "author", orphanRemoval = true)
     private List<Message> messageList = new ArrayList<>();
-
 
 
     @ManyToMany(targetEntity = Role.class)
     @JoinTable(name = "users_roles",
-               joinColumns = @JoinColumn(name = "user_id"),
-               inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
         roles.add(role);
         role.getUsers().add(this);
-    }
-
-    public boolean isCorrect() {
-        return checkPassword!=null && password!=null && password.equals(checkPassword);
     }
 
     public User() {
@@ -153,13 +144,5 @@ public class User {
 
     public void setSex(Sex sex) {
         this.sex = sex;
-    }
-
-    public String getCheckPassword() {
-        return checkPassword;
-    }
-
-    public void setCheckPassword(String checkPassword) {
-        this.checkPassword = checkPassword;
     }
 }
