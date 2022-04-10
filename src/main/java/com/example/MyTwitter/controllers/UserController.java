@@ -28,29 +28,28 @@ public class UserController {
     @GetMapping("/messages")
     public String getList(Model model,
                           @ModelAttribute Message message,
-                          @RequestParam(required = false) String filter){
-        List<Message> list = filter!=null ? messageService.findAllByTag(filter) : messageService.findAll();
+                          @RequestParam(required = false) String filter) {
+        List<Message> list = filter != null ? messageService.findAllByTag(filter) : messageService.findAll();
         model.addAttribute("messages", list);
         return "messages";
     }
 
     @PostMapping("/messages")
-    public String addNewMessage(@Valid @ModelAttribute Message message, BindingResult bindingResult,  Principal principal) {
-
+    public String addNewMessage(@Valid @ModelAttribute Message message, BindingResult bindingResult, Principal principal) {
 
         if (bindingResult.hasErrors())
-           return "messages";
+            return "messages";
 
-        messageService.save(message,userService.findByUsername(principal.getName()));
+        messageService.save(message, userService.findByUsername(principal.getName()));
         return "redirect:/messages";
     }
 
     @GetMapping("/profile")
     public String myProfile(Principal principal, Model model) {
         User myself = userService.findByUsername(principal.getName());
-            model.addAttribute("myself", myself);
-            model.addAttribute("messageList", messageService.findAllByAuthor(myself));
-            return "profile";
+        model.addAttribute("myself", myself);
+        model.addAttribute("messageList", messageService.findAllByAuthor(myself));
+        return "profile";
     }
 
     @GetMapping("/profile/{id}")
@@ -60,8 +59,8 @@ public class UserController {
         if (myself.getId().equals(userId))
             return "redirect:/profile";
         User user = userService.findById(userId);
-        model.addAttribute("user",user);
-        model.addAttribute("messages",messageService.findAllByAuthor(user));
+        model.addAttribute("user", user);
+        model.addAttribute("messages", messageService.findAllByAuthor(user));
         return "profilePage";
     }
 
@@ -76,7 +75,7 @@ public class UserController {
     public String edit(User newUser, Principal principal) {
         User user = userService.findByUsername(principal.getName());
 
-        userService.saveChanges(user,newUser);
+        userService.saveChanges(user, newUser);
         return "redirect:/profile";
     }
 

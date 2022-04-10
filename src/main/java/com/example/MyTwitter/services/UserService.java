@@ -10,7 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,21 +21,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
-    private final static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder encoder;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(PasswordEncoder encoder, UserRepository userRepository, RoleRepository roleRepository) {
+        this.encoder = encoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
 
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user =  userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null)
             throw new UsernameNotFoundException("There is no user with this username");
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority(user.getRoles()));
@@ -63,9 +63,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void addAdminRole(User user) {
-        if (!user.getRoles().contains((Role) roleRepository.getById(2L)))
-        user.getRoles().add(roleRepository.getById(2L));
-        userRepository.save(user);
+        if (!user.getRoles().contains(roleRepository.getById(2L))) {
+            user.getRoles().add(roleRepository.getById(2L));
+            userRepository.save(user);
+        }
     }
 
     public void saveChanges(User oldUser, User newUser) {

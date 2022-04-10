@@ -1,9 +1,6 @@
 package com.example.MyTwitter.entities;
 
 
-
-
-
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -17,7 +14,7 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Length(max=2048, message = "Сообщение слишком большое")
+    @Length(max = 2048, message = "Сообщение слишком большое")
     @NotBlank(message = "Тело сообщения не может быть пустым")
     private String text;
 
